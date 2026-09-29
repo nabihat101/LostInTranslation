@@ -13,9 +13,11 @@ import java.util.Map;
  * This class provides the service of converting country codes to their names and back.
  */
 public class CountryCodeConverter {
-
-    private Map<String, String> countryCodeToCountry = new HashMap<>();
-    private Map<String, String> countryToCountryCode = new HashMap<>();
+    public String code;
+    public String country;
+    public int count;
+    Public Map<String, String> countryCodeToCountry = new HashMap<>();
+    Public Map<String, String> countryToCountryCode = new HashMap<>();
 
     /**
      * Default constructor that loads the country codes from "country-codes.txt"
@@ -31,7 +33,6 @@ public class CountryCodeConverter {
      * @throws RuntimeException if the resources file can't be loaded properly
      */
     public CountryCodeConverter(String filename) {
-
         try {
             List<String> lines = Files.readAllLines(Paths.get(getClass()
                     .getClassLoader().getResource(filename).toURI()));
@@ -41,7 +42,9 @@ public class CountryCodeConverter {
             while (iterator.hasNext()) {
                 String line = iterator.next();
                 String[] parts = line.split("\t");
-                // TODO Task B: use parts to populate the instance variables
+                this.code = parts[1];
+                this.country = parts[0];
+                this.count += 1;
             }
         }
         catch (IOException | URISyntaxException ex) {
@@ -56,8 +59,7 @@ public class CountryCodeConverter {
      * @return the name of the country corresponding to the code
      */
     public String fromCountryCode(String code) {
-        // TODO Task B: update this code to use an instance variable to return the correct value
-        return code;
+        return this.code;
     }
 
     /**
@@ -66,8 +68,7 @@ public class CountryCodeConverter {
      * @return the 3-letter code of the country
      */
     public String fromCountry(String country) {
-        // TODO Task B: update this code to use an instance variable to return the correct value
-        return country;
+        return this.country;
     }
 
     /**
@@ -75,7 +76,6 @@ public class CountryCodeConverter {
      * @return how many countries are included in this country code converter.
      */
     public int getNumCountries() {
-        // TODO Task B: update this code to use an instance variable to return the correct value
-        return 0;
+        return this.count;
     }
 }
