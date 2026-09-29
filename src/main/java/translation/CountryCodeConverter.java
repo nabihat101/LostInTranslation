@@ -16,8 +16,8 @@ public class CountryCodeConverter {
     public String code;
     public String country;
     public int count;
-    Public Map<String, String> countryCodeToCountry = new HashMap<>();
-    Public Map<String, String> countryToCountryCode = new HashMap<>();
+    public Map<String, String> countryCodeToCountry = new HashMap<>();
+    public Map<String, String> countryToCountryCode = new HashMap<>();
 
     /**
      * Default constructor that loads the country codes from "country-codes.txt"
@@ -42,7 +42,7 @@ public class CountryCodeConverter {
             while (iterator.hasNext()) {
                 String line = iterator.next();
                 String[] parts = line.split("\t");
-                this.code = parts[1];
+                this.code = parts[2];
                 this.country = parts[0];
                 this.count += 1;
             }
@@ -59,7 +59,7 @@ public class CountryCodeConverter {
      * @return the name of the country corresponding to the code
      */
     public String fromCountryCode(String code) {
-        return this.code;
+        return this.countryCodeToCountry.get(code);
     }
 
     /**
@@ -68,7 +68,7 @@ public class CountryCodeConverter {
      * @return the 3-letter code of the country
      */
     public String fromCountry(String country) {
-        return this.country;
+        return this.countryToCountryCode.get(country);
     }
 
     /**
