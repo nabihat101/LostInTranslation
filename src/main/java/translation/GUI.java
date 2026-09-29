@@ -1,7 +1,9 @@
 package translation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 
 // TODO Task D: Update the GUI for the program to align with UI shown in the README example.
@@ -13,6 +15,16 @@ public class GUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            // dropdown
+            JPanel languagePanel = new JPanel();
+            Translator translator = new CanadaTranslator();
+            JComboBox<String> languageComboBox = new JComboBox<>();
+            for(String countryCode : translator.getLanguageCodes()) {
+                languageComboBox.addItem(countryCode);
+            }
+            languagePanel.add(new JLabel("Language:"));
+            languagePanel.add(languageComboBox);
+
             JPanel countryPanel = new JPanel();
             JTextField countryField = new JTextField(10);
             countryField.setText("can");
@@ -20,47 +32,43 @@ public class GUI {
             countryPanel.add(new JLabel("Country:"));
             countryPanel.add(countryField);
 
-            JPanel languagePanel = new JPanel();
-            JTextField languageField = new JTextField(10);
-            languagePanel.add(new JLabel("Language:"));
-            languagePanel.add(languageField);
+//            JPanel buttonPanel = new JPanel();
+//            JButton submit = new JButton("Submit");
+//            buttonPanel.add(submit);
 
-            JPanel buttonPanel = new JPanel();
-            JButton submit = new JButton("Submit");
-            buttonPanel.add(submit);
-
-            JLabel resultLabelText = new JLabel("Translation:");
-            buttonPanel.add(resultLabelText);
+            JPanel resultPanel = new JPanel();
+            resultPanel.add(new JLabel("Translation:"));
             JLabel resultLabel = new JLabel("\t\t\t\t\t\t\t");
-            buttonPanel.add(resultLabel);
+            resultPanel.add(resultLabel);
 
 
             // adding listener for when the user clicks the submit button
-            submit.addActionListener(new ActionListener() {
+            languageComboBox.addItemListener(new ItemListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    String language = languageField.getText();
+                public void itemStateChanged(ItemEvent e) {
                     String country = countryField.getText();
+                    Translator translator = new CanadaTranslator();
+
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        String language = Objects.requireNonNull(languageComboBox.getSelectedItem()).toString();
+                        String result = translator.translate(country, language);
+                        if (result == null) {
+                            result = "no translation found!";
+                        }
+                        resultLabel.setText(result);
+                    }
 
                     // for now, just using our simple translator, but
                     // we'll need to use the real JSON version later.
-                    Translator translator = new CanadaTranslator();
-
-                    String result = translator.translate(country, language);
-                    if (result == null) {
-                        result = "no translation found!";
-                    }
-                    resultLabel.setText(result);
-
                 }
 
             });
 
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            mainPanel.add(countryPanel);
             mainPanel.add(languagePanel);
-            mainPanel.add(buttonPanel);
+            mainPanel.add(resultPanel);
+            mainPanel.add(countryPanel);
 
             JFrame frame = new JFrame("Country Name Translator");
             frame.setContentPane(mainPanel);
