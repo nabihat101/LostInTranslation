@@ -13,8 +13,6 @@ import java.util.Map;
  * This class provides the service of converting country codes to their names and back.
  */
 public class CountryCodeConverter {
-    public String code;
-    public String country;
     public int count;
     public Map<String, String> countryCodeToCountry = new HashMap<>();
     public Map<String, String> countryToCountryCode = new HashMap<>();
@@ -42,8 +40,6 @@ public class CountryCodeConverter {
             while (iterator.hasNext()) {
                 String line = iterator.next();
                 String[] parts = line.split("\t");
-                this.code = parts[2];
-                this.country = parts[0];
                 this.count += 1;
             }
         }
