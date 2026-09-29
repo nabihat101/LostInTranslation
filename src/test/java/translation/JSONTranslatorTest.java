@@ -30,3 +30,6 @@ public class JSONTranslatorTest {
         assertEquals("Canada", jsonTranslator.translate("can", "en"));
     }
 }
+
+
+

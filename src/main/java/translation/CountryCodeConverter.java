@@ -40,6 +40,8 @@ public class CountryCodeConverter {
             while (iterator.hasNext()) {
                 String line = iterator.next();
                 String[] parts = line.split("\t");
+                this.countryCodeToCountry.put(parts[2], parts[0]);
+                this.countryToCountryCode.put(parts[0], parts[2]);
                 this.count += 1;
             }
         }
